@@ -16,7 +16,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   useEffect(() => {
     if (password !== password2){
       setPasswordsMatchText("Passwords do not match");
-      setPasswordsMatch(false)  
+      setPasswordsMatch(false)
     }
     else {
       setPasswordsMatchText("");
@@ -52,10 +52,9 @@ const SignupComponent = ({ setIsAuthenticated }) => {
           onChange={(e) => setPassword2(e.target.value)}
           />
       </label>
-          <p>{passwordsMatchText}</p>
+          <p style={{color: "red"}} >{passwordsMatchText}</p>
       <br />
         <button disabled={!passwordsMatch} style={!passwordsMatch ? {color: "red", backgroundColor: "gray"} : {} } onClick={handleSignup}>Sign Up</button>
-      
     </div>
   );
 };
