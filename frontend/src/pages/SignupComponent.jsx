@@ -1,27 +1,30 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSignup } from "../hooks/useSignup";
 
 const SignupComponent = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const navigate = useNavigate();
   const [passwordsMatchText, setPasswordsMatchText] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const { error, signup } = useSignup(setIsAuthenticated);
 
   const handleSignup = async () => {
+      if (passwordsMatch) {
+          await signup(email, password);
+      }
   };
-
   
   useEffect(() => {
-    if (password !== password2){
-      setPasswordsMatchText("Passwords do not match");
+    if (password !== password2 || !password){
+      !password ? setPasswordsMatchText("Type password") : setPasswordsMatchText("Passwords do not match");
       setPasswordsMatch(false)
     }
     else {
       setPasswordsMatchText("");
       setPasswordsMatch(true);
     }
+    
   },[password, password2, passwordsMatchText, passwordsMatch])
 
   return (
@@ -34,6 +37,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {error && error.includes("Email") ? error : ""}
       </label>
       <br />
       <label>
@@ -43,6 +47,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && error.includes("Password") ? error : ""}
       </label>
       <label>
         Retype password:

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
-export const useSignup = () => {
+export const useSignup = (setIsAuthenticated) => {
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const signup = async (email, password) => {
         setError(null);
@@ -22,11 +24,14 @@ export const useSignup = () => {
                 setIsAuthenticated(true);
                 navigate("/");
             } else {
+                const json = await response.json();
                 console.error("Signup failed", response);
-                setError(response.error);
+                setError(await json.error);
             }
         } catch (error) {
             console.error("Error during signup:", error);
         }
     }
+
+    return { signup, error };
 }
