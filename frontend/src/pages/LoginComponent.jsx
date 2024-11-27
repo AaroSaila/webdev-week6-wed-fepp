@@ -8,7 +8,7 @@ const LoginComponent = ({ setIsAuthenticated }) => {
   const {login,error} = useLogin(setIsAuthenticated);
 
   const handleLogin = async () => {
-    login(email, password);
+    await login(email, password);
   };
 
   return (
