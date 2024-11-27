@@ -6,20 +6,23 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const navigate = useNavigate();
-  const [passwordIsSame, setPasswordIsSame] = useState('');
+  const [passwordsMatchText, setPasswordsMatchText] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const handleSignup = async () => {
   };
 
   
   useEffect(() => {
-    console.log("pwd changed");
-    
-    if (password !== password2)
-      setPasswordIsSame("Passwords do not match");
-    else
-      setPasswordIsSame("");
-  },[password, password2, passwordIsSame])
+    if (password !== password2){
+      setPasswordsMatchText("Passwords do not match");
+      setPasswordsMatch(false)  
+    }
+    else {
+      setPasswordsMatchText("");
+      setPasswordsMatch(true);
+    }
+  },[password, password2, passwordsMatchText, passwordsMatch])
 
   return (
     <div className="form-container">
@@ -49,9 +52,10 @@ const SignupComponent = ({ setIsAuthenticated }) => {
           onChange={(e) => setPassword2(e.target.value)}
           />
       </label>
-          <p>{passwordIsSame}</p>
+          <p>{passwordsMatchText}</p>
       <br />
-      <button onClick={handleSignup}>Sign Up</button>
+        <button disabled={!passwordsMatch} style={!passwordsMatch ? {color: "red", backgroundColor: "gray"} : {} } onClick={handleSignup}>Sign Up</button>
+      
     </div>
   );
 };
