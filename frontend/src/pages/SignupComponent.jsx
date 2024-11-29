@@ -11,6 +11,8 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   const { error, signup } = useSignup(setIsAuthenticated);
 
   const handleSignup = async () => {
+    console.log(error);
+    
       if (passwordsMatch) {
           await signup(email, password);
       }
@@ -60,6 +62,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
       </label>
           <p style={{color: "red"}} >{passwordsMatchText}</p>
       <br />
+      <p>{error && error.includes("All") ? error : ""}</p>
         <button disabled={!passwordsMatch} style={!passwordsMatch ? {color: "red", backgroundColor: "gray"} : {} } onClick={handleSignup}>Sign Up</button>
     </div>
   );
